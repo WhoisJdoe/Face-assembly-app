@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.placeholder {
+    display: flex;
+    justify-content: space-around;
+    width: 600px;
+    height: 400px;
+    background-color: #e0e0e0;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.face-part {
+    width: 30%;
+    height: 40%;
+    background-color: #ccc;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+.image-selector {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
