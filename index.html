@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Assembly</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="placeholder">
+            <div id="left-eye" class="face-part"></div>
+            <div id="right-eye" class="face-part"></div>
+            <div id="mouth" class="face-part"></div>
+        </div>
+        <div class="controls">
+            <button onclick="selectCategory('left-eye')">Left Eye</button>
+            <button onclick="selectCategory('right-eye')">Right Eye</button>
+            <button onclick="selectCategory('mouth')">Mouth</button>
+        </div>
+        <div id="image-selector" class="image-selector">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
