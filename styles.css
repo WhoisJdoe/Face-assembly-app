@@ -30,11 +30,46 @@ body {
 }
 
 .controls {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+button {
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #00ADEF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #007BBA;
 }
 
 .image-selector {
     display: none;
     flex-direction: column;
     align-items: center;
+}
+
+.images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.thumbnail:hover {
+    border-color: #00ADEF;
 }
