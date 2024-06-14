@@ -5,6 +5,7 @@ function selectCategory(category) {
     document.getElementById('image-selector').style.display = 'flex';
     loadImages(category);
     document.querySelector('.controls').style.display = 'none';
+    updatePlaceholder(category);
 }
 
 function loadImages(category) {
@@ -31,6 +32,12 @@ function loadImages(category) {
         img.onclick = () => selectImage(image);
         imagesDiv.appendChild(img);
     });
+}
+
+function updatePlaceholder(category) {
+    const placeholders = document.querySelectorAll('.face-part');
+    placeholders.forEach(placeholder => placeholder.style.display = 'none');
+    document.getElementById(category).style.display = 'block';
 }
 
 function showSelfieMode() {
