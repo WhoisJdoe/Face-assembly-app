@@ -39,3 +39,33 @@ function showSelfieMode() {
         <video id="video" width="640" height="480" autoplay></video>
         <button id="snap">Snap Photo</button>
         <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+        <button onclick="saveSelfie()">Save Selfie</button>
+    `;
+
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const snap = document.getElementById('snap');
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            video.srcObject = stream;
+        });
+
+    snap.addEventListener('click', () => {
+        context.drawImage(video, 0, 0, 640, 480);
+        canvas.style.display = 'block';
+    });
+}
+
+function saveSelfie() {
+    const canvas = document.getElementById('canvas');
+    const dataURL = canvas.toDataURL('image/png');
+    selectImage(dataURL);
+}
+
+function selectImage(imageSrc) {
+    document.getElementById(selectedCategory).style.backgroundImage = `url(${imageSrc})`;
+    document.getElementById('image-selector').style.display = 'none';
+    document.querySelector('.controls').style.display = 'flex';
+}
