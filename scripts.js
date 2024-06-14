@@ -19,9 +19,9 @@ function loadImages(category) {
 
     const imagesDiv = imageSelector.querySelector('.images');
     const images = {
-        'left-eye': ['path/to/image1.jpg', 'path/to/image2.jpg', 'path/to/image3.jpg'], // replace with actual image paths
-        'right-eye': ['path/to/image4.jpg', 'path/to/image5.jpg', 'path/to/image6.jpg'],
-        'mouth': ['path/to/image7.jpg', 'path/to/image8.jpg', 'path/to/image9.jpg']
+        'left-eye': ['left-eye/image1.jpg', 'left-eye/image2.jpg', 'left-eye/image3.jpg'], // replace with actual image paths
+        'right-eye': ['right-eye/image1.jpg', 'right-eye/image2.jpg', 'right-eye/image3.jpg'],
+        'mouth': ['mouth/image1.jpg', 'mouth/image2.jpg', 'mouth/image3.jpg']
     };
 
     images[category].forEach(image => {
@@ -37,4 +37,5 @@ function showSelfieMode() {
     const imageSelector = document.getElementById('image-selector');
     imageSelector.innerHTML = `
         <video id="video" width="640" height="480" autoplay></video>
-        <button id="snap">Snap Photo</
+        <button id="snap">Snap Photo</button>
+        <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
