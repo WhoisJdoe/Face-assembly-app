@@ -55,12 +55,22 @@ function showSelfieMode() {
     snap.addEventListener('click', () => {
         context.drawImage(video, 0, 0, 640, 480);
         canvas.style.display = 'block';
+        const cropper = new Cropper(canvas, {
+            aspectRatio: 1,
+            viewMode: 1,
+            autoCropArea: 1,
+            crop(event) {
+                // Log the cropped region
+            }
+        });
     });
 }
 
 function saveSelfie() {
     const canvas = document.getElementById('canvas');
-    const dataURL = canvas.toDataURL('image/png');
+    const cropper = Cropper.getInstance(canvas);
+    const croppedCanvas = cropper.getCroppedCanvas();
+    const dataURL = croppedCanvas.toDataURL('image/png');
     selectImage(dataURL);
 }
 
