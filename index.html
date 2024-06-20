@@ -5,22 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Face Assembly</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="cropper.css">
 </head>
 <body>
     <div class="container">
-        <div class="placeholder">
-            <div id="left-eye" class="face-part"></div>
-            <div id="right-eye" class="face-part"></div>
-            <div id="mouth" class="face-part"></div>
+        <div class="placeholder" id="left-eye-placeholder">
+            <div class="face-part" id="left-eye"></div>
+        </div>
+        <div class="placeholder" id="right-eye-placeholder">
+            <div class="face-part" id="right-eye"></div>
+        </div>
+        <div class="placeholder" id="mouth-placeholder">
+            <div class="face-part" id="mouth"></div>
         </div>
         <div class="controls">
             <button onclick="selectCategory('left-eye')">Left Eye</button>
             <button onclick="selectCategory('right-eye')">Right Eye</button>
             <button onclick="selectCategory('mouth')">Mouth</button>
         </div>
-        <div id="image-selector" class="image-selector">
-            <!-- Dynamic content will be inserted here -->
+    </div>
+    <div class="image-selector" id="image-selector">
+        <h2>Select an image for <span id="category-name"></span></h2>
+        <button onclick="takeSelfie()">Include your <span id="selfie-category-name"></span> (Selfie)</button>
+        <div class="images" id="image-options"></div>
+        <input type="file" id="selfie-input" accept="image/*" capture="user" style="display:none" onchange="handleSelfieInput(event)">
+        <div id="cropper-container" style="display:none">
+            <h2>Crop your <span id="cropper-category-name"></span></h2>
+            <img id="selfie-image" src="" alt="Selfie">
+            <button onclick="saveSelfie()">Save Selfie</button>
         </div>
     </div>
     <script src="cropper.js"></script>
