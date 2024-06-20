@@ -1,84 +1,66 @@
-const leftEyeFolder = 'https://github.com/WhoisJdoe/Face-assembly-app/tree/main/left-eye/';
-const rightEyeFolder = 'https://github.com/WhoisJdoe/Face-assembly-app/tree/main/right-eye/';
-const mouthFolder = 'https://github.com/WhoisJdoe/Face-assembly-app/tree/main/mouth/';
+let selectedCategory = '';
 
 function selectCategory(category) {
-    const imageSelector = document.getElementById('image-selector');
-    imageSelector.style.display = 'flex';
-    imageSelector.innerHTML = '';
-
-    const placeholder = document.getElementById(category);
-    placeholder.style.display = 'block';
-
-    const categoryFolder = category === 'left-eye' ? leftEyeFolder : category === 'right-eye' ? rightEyeFolder : mouthFolder;
-
-    // Add images
-    const imagesContainer = document.createElement('div');
-    imagesContainer.classList.add('images');
-
-    fetch(categoryFolder)
-        .then(response => response.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const imageLinks = Array.from(doc.querySelectorAll('a')).filter(link => link.href.endsWith('.jpg') || link.href.endsWith('.png'));
-
-            imageLinks.forEach(link => {
-                const img = document.createElement('img');
-                img.src = link.href;
-                img.classList.add('thumbnail');
-                img.onclick = () => {
-                    placeholder.style.backgroundImage = `url(${link.href})`;
-                    placeholder.style.backgroundSize = 'cover';
-                };
-                imagesContainer.appendChild(img);
-            });
-
-            imageSelector.appendChild(imagesContainer);
-        });
-
-    // Add selfie button
-    const selfieButton = document.createElement('button');
-    selfieButton.innerText = `Include your ${category.replace('-', ' ')} (Selfie)`;
-    selfieButton.onclick = () => openCamera(category);
-    imageSelector.appendChild(selfieButton);
+    selectedCategory = category;
+    document.getElementById('category-name').innerText = category.replace('-', ' ');
+    document.getElementById('selfie-category-name').innerText = category.replace('-', ' ');
+    document.getElementById('image-selector').style.display = 'flex';
+    loadImages(category);
 }
 
-function openCamera(category) {
-    const imageSelector = document.getElementById('image-selector');
-    imageSelector.innerHTML = '';
+function loadImages(category) {
+    const imageContainer = document.getElementById('image-options');
+    imageContainer.innerHTML = '';
+    const images = ['image1.jpg', 'image2.jpg', 'image3.jpg']; // Replace with actual image file names
 
-    const video = document.createElement('video');
-    video.autoplay = true;
-    video.width = 300;
-    video.height = 400;
-
-    navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-        video.srcObject = stream;
+    images.forEach(image => {
+        const imgElement = document.createElement('img');
+        imgElement.src = `./${category}/${image}`;
+        imgElement.classList.add('thumbnail');
+        imgElement.onclick = () => selectImage(category, imgElement.src);
+        imageContainer.appendChild(imgElement);
     });
+}
 
-    const cropperContainer = document.createElement('div');
-    cropperContainer.appendChild(video);
+function selectImage(category, src) {
+    document.getElementById(category).style.backgroundImage = `url(${src})`;
+    document.getElementById('image-selector').style.display = 'none';
+}
 
-    const cropper = new Cropper(video, {
-        aspectRatio: category === 'mouth' ? 2 / 1 : 1 / 2,
+function takeSelfie() {
+    document.getElementById('selfie-input').click();
+}
+
+function handleSelfieInput(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('selfie-image').src = e.target.result;
+        document.getElementById('cropper-container').style.display = 'block';
+        document.getElementById('image-selector').style.display = 'none';
+        initializeCropper();
+    }
+    reader.readAsDataURL(file);
+}
+
+function initializeCropper() {
+    const image = document.getElementById('selfie-image');
+    const cropper = new Cropper(image, {
+        aspectRatio: 1,
         viewMode: 1,
-        ready() {
-            croppable = true;
+        autoCropArea: 0.5,
+        responsive: true,
+        background: false,
+        zoomable: false,
+        crop(event) {
+            // Logic to handle the crop
         },
     });
+}
 
-    const saveButton = document.createElement('button');
-    saveButton.innerText = 'Save Selfie';
-    saveButton.onclick = () => {
-        const canvas = cropper.getCroppedCanvas();
-        const placeholder = document.getElementById(category);
-        placeholder.style.backgroundImage = `url(${canvas.toDataURL()})`;
-        placeholder.style.backgroundSize = 'cover';
-        stream.getTracks().forEach(track => track.stop());
-        imageSelector.style.display = 'none';
-    };
-
-    cropperContainer.appendChild(saveButton);
-    imageSelector.appendChild(cropperContainer);
+function saveSelfie() {
+    const canvas = cropper.getCroppedCanvas();
+    const dataURL = canvas.toDataURL('image/png');
+    document.getElementById(selectedCategory).style.backgroundImage = `url(${dataURL})`;
+    document.getElementById('cropper-container').style.display = 'none';
 }
